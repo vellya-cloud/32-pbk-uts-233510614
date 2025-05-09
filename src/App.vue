@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const tasks = ref([]);
 const newTask = ref('');
@@ -15,6 +15,11 @@ const addTask = () => {
     newTask.value = '';
   }
 };
+
+const taskCountDone = computed(() => {
+  return tasks.value.filter(task => task.completed).length;
+})
+
 </script>
 
 <template>
@@ -27,6 +32,7 @@ const addTask = () => {
       {{ task.text }}
     </li>
   </ul>
+  <p>Tasks done: {{ taskCountDone }}</p>
 </template>
 
 <style scoped></style>
