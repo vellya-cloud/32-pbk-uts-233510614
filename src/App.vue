@@ -20,6 +20,10 @@ const taskCountDone = computed(() => {
   return tasks.value.filter(task => task.completed).length;
 })
 
+const removeTask = (taskId) => {
+  tasks.value = tasks.value.filter(task => task.id !== taskId);
+}
+
 </script>
 
 <template>
@@ -30,6 +34,7 @@ const taskCountDone = computed(() => {
     <li v-for="task in tasks" :key="task.id">
       <input type="checkbox" v-model="task.completed" />
       {{ task.text }}
+      <button @click="removeTask(task.id)">Remove</button>
     </li>
   </ul>
   <p>Tasks done: {{ taskCountDone }}</p>
