@@ -37,22 +37,65 @@ const filterTasks = computed(() => {
 </script>
 
 <template>
-  <input type="text" v-model="newTask" @keyup.enter="addTask" />
-  <button @click="addTask">Add Task</button>
-  <div>
-    <button @click="filterType = 'all'">All</button>
-    <button @click="filterType = 'completed'">Completed</button>
-    <button @click="filterType = 'active'">Active</button>
-  </div>
+  <div class="min-h-screen bg-gradient-to-br from-indigo-100 to-yellow-50 flex items-center justify-center p-6">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-6 space-y-6">
 
-  <ul>
-    <li v-for="task in filterTasks" :key="task.id">
-      <input type="checkbox" v-model="task.completed" />
-      {{ task.text }}
-      <button @click="removeTask(task.id)">Remove</button>
-    </li>
-  </ul>
-  <p>Tasks done: {{ taskCountDone }}</p>
+      <h1 class="text-center text-3xl font-bold text-indigo-600">Daftar Tugas</h1>
+
+      <div class="flex items-center bg-indigo-50 rounded-full px-4 py-2 shadow-inner">
+        <input
+          v-model="newTask"
+          @keyup.enter="addTask"
+          type="text"
+          placeholder="Tambahkan tugas baru..."
+          class="flex-1 bg-transparent outline-none text-indigo-700 placeholder-indigo-300"
+        />
+        <button
+          @click="addTask"
+          class="ml-3 bg-yellow-400 text-indigo-900 font-semibold px-4 py-1.5 rounded-full hover:bg-yellow-300 transition"
+        >
+          +
+        </button>
+      </div>
+
+      <div class="flex justify-center gap-3">
+        <span
+          v-for="type in ['all', 'completed', 'active']"
+          :key="type"
+          @click="filterType = type"
+          :class="filterType === type ? 'bg-indigo-500 text-white' : 'bg-indigo-100 text-indigo-600'"
+          class="px-4 py-1.5 rounded-full text-sm cursor-pointer font-medium transition hover:bg-indigo-200"
+        >
+          {{ type.charAt(0).toUpperCase() + type.slice(1) }}
+        </span>
+      </div>
+
+      <ul class="space-y-4 max-h-64 overflow-y-auto pr-2 scroll-smooth">
+        <li
+          v-for="task in filterTasks"
+          :key="task.id"
+          class="flex justify-between items-center bg-white border border-indigo-100 rounded-xl px-4 py-3 shadow-sm hover:shadow-md transition"
+        >
+          <div class="flex items-center gap-3">
+            <input type="checkbox" v-model="task.completed" class="accent-indigo-500 w-5 h-5" />
+            <span :class="task.completed ? 'line-through text-gray-400' : 'text-gray-700'">
+              {{ task.text }}
+            </span>
+          </div>
+          <button
+            @click="removeTask(task.id)"
+            class="text-pink-500 hover:text-pink-700 font-bold text-lg"
+          >
+            ✕
+          </button>
+        </li>
+      </ul>
+
+      <div class="text-center text-indigo-700 text-md font-medium">
+        Selesai: {{ taskCountDone }} tugas
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>
